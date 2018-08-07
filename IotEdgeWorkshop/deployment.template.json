@@ -9,7 +9,7 @@
             "minDockerVersion": "v1.25",
             "loggingOptions": "",
             "registryCredentials": {
-              " iotacr1310": {
+              "iotacr1310": {
                 "username": "$CONTAINER_REGISTRY_USERNAME_iotacr1310",
                 "password": "$CONTAINER_REGISTRY_PASSWORD_iotacr1310",
                 "address": "iotacr1310.azurecr.io"
