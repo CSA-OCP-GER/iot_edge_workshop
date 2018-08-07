@@ -47,12 +47,12 @@
             }
           },
           "FilterModule": {
-            "version": "1.0",
+            "version": "#{image_tag}#",
             "type": "docker",
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "${MODULES.FilterModule.amd64}",
+              "image": "filtermodule",
               "createOptions": ""
             }
           }
