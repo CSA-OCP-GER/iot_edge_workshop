@@ -10,9 +10,9 @@
             "loggingOptions": "",
             "registryCredentials": {
               " iotacr1310": {
-                "username": "$CONTAINER_REGISTRY_USERNAME_ iotacr1310",
-                "password": "$CONTAINER_REGISTRY_PASSWORD_ iotacr1310",
-                "address": " iotacr1310.azurecr.io"
+                "username": "$CONTAINER_REGISTRY_USERNAME_iotacr1310",
+                "password": "$CONTAINER_REGISTRY_PASSWORD_iotacr1310",
+                "address": "iotacr1310.azurecr.io"
               }
             }
           }
