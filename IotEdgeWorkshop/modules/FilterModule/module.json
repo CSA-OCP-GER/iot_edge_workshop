@@ -4,7 +4,7 @@
     "image": {
         "repository": "iotacr1310.azurecr.io/filtermodule",
         "tag": {
-            "version": "0.0.2",
+            "version": "#{image_tag}#",
             "platforms": {
                 "amd64": "./Dockerfile.amd64", 
                 "amd64.debug": "./Dockerfile.amd64.debug",
