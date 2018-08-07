@@ -52,7 +52,7 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "filtermodule",
+              "image": "${MODULES.FilterModule.arm32v7}",
               "createOptions": ""
             }
           }
