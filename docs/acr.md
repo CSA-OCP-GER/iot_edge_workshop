@@ -12,7 +12,13 @@ spname=iotedgeapp
 sppwd=mysupersecretpassword
 ```
 
-Now you can create the Azure Container Registry. The variable `$rgname` is defined in a previous step ([IoT Hub](iothub.md))
+The variable `$rgname` is defined in a previous step ([IoT Hub](iothub.md)). If you didn't follow that guide, you can define that variable now:
+
+```
+rgname=iottest
+```
+
+Now you can create the Azure Container Registry. 
 
 ```
 az acr create -g $rgname -n $acrname --sku Basic
@@ -28,7 +34,16 @@ acrurl=$(az acr show -g $rgname -n $acrname --query loginServer -o tsv)
 appid=$(az ad sp show --id http://$spname --query appId -o tsv)
 ```
 
-Now you can test that Docker authentication works with these read-only credentials. If you tried to push an image, it would fail, but pulling images should work.
+If you get an error with the az ad sp command, claiming that you need to use the --name option, please do so:
+
+```
+az ad sp credential reset --name $spname -p $sppwd
+acrurl=$(az acr show -g $rgname -n $acrname --query loginServer -o tsv)
+appid=$(az ad sp show --id http://$spname --query appId -o tsv)
+```
+
+
+Now you can test that Docker authentication works with these read-only credentials. If you tried to push an image, it would fail, but pulling images should work (note that you should have a working Docker installation to be able to test this step):
 
 ```
 docker login -u $appid -p $sppwd $acrurl
