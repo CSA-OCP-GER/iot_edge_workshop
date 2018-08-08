@@ -16,9 +16,9 @@ For this option you need ARM-based hardware that represents your IoT Edge Gatewa
 1. Install Raspbian on a Raspberry Pi, as well as the IoT Edge bits. [Hints](docs/ARM-raspbian.md)
 2. Create an IoT hub in Azure, and connect the Raspberry Pi to your IoT Hub as IoT Edge Device. [Hints](docs/iothub.md)
 3. Create an Azure Container Registry. Create a service principal with read-only access to your ACR. [Hints](docs/acr.md)
-4. Install the Azure IoT Edge extensions on VS Code, and create an IoT Edge Solution. Commit your code to a Github repository
+4. Install the Azure IoT Edge extensions on VS Code, and create an IoT Edge Solution. Commit your code to a Github repository. [Hints](docs/vsc.md)
 5. Create a Linux VM that we will use as VSTS Build Agent. Install the Azure SDK (CLI 2.0), the IoT extensions and QEMU (to build ARM-based containers). [Hints](docs/buildagent.md)
-6. Create a CI pipeline in VSTS that will orchestrate the building/pushing of a container and the deployment to the IoT Edge device over IoT hub.
+6. Create a CI pipeline in VSTS that will orchestrate the building/pushing of a container and the deployment to the IoT Edge device over IoT hub. [Hints](vsts.md)
 
 ## Option 2. x86-based IoT Edge Gateway
 
@@ -27,5 +27,5 @@ You can run these exercises without having to purchase ARM hardware. You can use
 1. Create a VM in Azure with Linux/Windows, install the IoT Edge bits
 2. Create an IoT hub in Azure, and connect the IoT Edge software on your VM to your IoT Hub as IoT Edge Device. [Hints](docs/iothub.md)
 3. Create an Azure Container Registry. Create a service principal with read-only access to your ACR. [Hints](docs/acr.md)
-4. Install the Azure IoT Edge extensions on VS Code, and create an IoT Edge Solution. Commit your code to a Github repository
+4. Install the Azure IoT Edge extensions on VS Code, and create an IoT Edge Solution. Commit your code to a Github repository. [Hints](docs/vsc.md)
 5. Create a CI pipeline in VSTS that will orchestrate the building/pushing of a container and the deployment to the IoT Edge device over IoT hub. [Hints](vsts.md)

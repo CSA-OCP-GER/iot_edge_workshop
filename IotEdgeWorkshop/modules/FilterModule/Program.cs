@@ -54,7 +54,6 @@ namespace FilterModule
         }
 
         /// <summary>
-        /// Hola
         /// This method is called whenever the module is sent a message from the EdgeHub. 
         /// It just pipe the messages without any change.
         /// It prints all the incoming messages.
