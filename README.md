@@ -24,7 +24,7 @@ For this option you need ARM-based hardware that represents your IoT Edge Gatewa
 
 You can run these exercises without having to purchase ARM hardware. You can use this [Quickstart guide](https://docs.microsoft.com/en-us/azure/iot-edge/quickstart) or refer to these more generic documents:
 
-1. Create a VM in Azure with Linux/Windows, install the IoT Edge bits
+1. Create a VM in Azure with Linux/Windows, install the IoT Edge bits. [Hints](docs/iotedgeruntime.md)
 2. Create an IoT hub in Azure, and connect the IoT Edge software on your VM to your IoT Hub as IoT Edge Device. [Hints](docs/iothub.md)
 3. Create an Azure Container Registry. Create a service principal with read-only access to your ACR. [Hints](docs/acr.md)
 4. Install the Azure IoT Edge extensions on VS Code, and create an IoT Edge Solution. Commit your code to a Github repository. [Hints](docs/vsc.md)
