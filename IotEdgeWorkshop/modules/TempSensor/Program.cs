@@ -34,20 +34,7 @@ namespace AzureIotEdgeSimulatedTemperatureSensor
 
         static async Task Main(string[] args)
         {
-            //DEBUG: print all environment variables
-            Console.WriteLine("Printing environment variables:");
-            foreach(DictionaryEntry e in Environment.GetEnvironmentVariables())
-            {
-                Console.WriteLine(e.Key  + ":" + e.Value);
-            }
-
-            // The Edge runtime gives us the connection string we need -- it is injected as an environment variable
-            var connectionString = Environment.GetEnvironmentVariable("EdgeHubConnectionString");
-
-            // Cert verification is not yet fully functional when using Windows OS for the container
-            var bypassCertVerification = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-            if (!bypassCertVerification) InstallCert();
-            await Init(connectionString, bypassCertVerification);
+            Init.Wait();
 
             // Wait until the app unloads or is cancelled
             var cts = new CancellationTokenSource();
@@ -97,8 +84,43 @@ namespace AzureIotEdgeSimulatedTemperatureSensor
         /// Initializes the DeviceClient and sets up the callback to receive
         /// messages containing temperature information
         /// </summary>
-        static async Task Init(string connectionString, bool bypassCertVerification = false)
+        static async Task Init()
         {
+            //DEBUG: print all environment variables
+            Console.WriteLine("DEBUG: Printing environment variables:");
+            foreach(DictionaryEntry e in Environment.GetEnvironmentVariables())
+            {
+                Console.WriteLine(e.Key  + ":" + e.Value);
+            }
+            Console.WriteLine("---");
+
+            // From https://docs.microsoft.com/en-us/azure/iot-edge/how-to-create-transparent-gateway-linux#installation-on-the-downstream-device
+            string certPath = "/app/azure-iot-test-only.root.ca.cert.pem";
+            X509Store store = new X509Store(StoreName.Root, StoreLocation.CurrentUser);
+            store.Open(OpenFlags.ReadWrite);
+            store.Add(new X509Certificate2(X509Certificate2.CreateFromCertFile(certPath)));
+            store.Close();
+
+            // Code copied over from FilterModule
+            AmqpTransportSettings amqpSetting = new AmqpTransportSettings(TransportType.Amqp_Tcp_Only);
+            ITransportSettings[] settings = { amqpSetting };
+            // Open a connection to the Edge runtime
+            ModuleClient ioTHubModuleClient = await ModuleClient.CreateFromEnvironmentAsync(settings);
+            await ioTHubModuleClient.OpenAsync();
+            Console.WriteLine("IoT Hub module client initialized.");
+
+
+
+            /* Original code, part of it was in Main()
+
+            // The Edge runtime gives us the connection string we need -- it is injected as an environment variable
+            var connectionString = Environment.GetEnvironmentVariable("EdgeHubConnectionString");
+
+            // Cert verification is not yet fully functional when using Windows OS for the container
+            var bypassCertVerification = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+            if (!bypassCertVerification) InstallCert();
+            await Init(connectionString, bypassCertVerification);
+
             Console.WriteLine("Connection String {0}", connectionString);
 
             var mqttSetting = new MqttTransportSettings(TransportType.Mqtt_Tcp_Only);
@@ -113,6 +135,7 @@ namespace AzureIotEdgeSimulatedTemperatureSensor
             var ioTHubModuleClient = DeviceClient.CreateFromConnectionString(connectionString, settings);
             await ioTHubModuleClient.OpenAsync();
             Console.WriteLine("IoT Hub module client initialized.");
+            */
 
             var moduleTwin = await ioTHubModuleClient.GetTwinAsync();
             var moduleTwinCollection = moduleTwin.Properties.Desired;
