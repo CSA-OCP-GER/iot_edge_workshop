@@ -10,7 +10,11 @@ RUN dotnet publish -c Release -o out
 FROM microsoft/dotnet:2.1-runtime-stretch-slim-arm32v7
 WORKDIR /app
 COPY qemu-arm-static /usr/bin/qemu-arm-static
+
 COPY azure-iot-test-only.root.ca.cert.pem /app/azure-iot-test-only.root.ca.cert.pem
+COPY azure-iot-test-only.root.ca.cert.pem /usr/local/share/ca-certificates/azure-iot-test-only.root.ca.cert.pem.crt
+RUN update-ca-certificate
+
 COPY --from=build-env /app/out ./
 
 RUN useradd -ms /bin/bash moduleuser
