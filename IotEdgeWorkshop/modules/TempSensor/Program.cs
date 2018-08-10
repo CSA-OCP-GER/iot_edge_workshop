@@ -2,22 +2,6 @@
 // Licensed under the MIT License.
 // Original code: https://github.com/Azure/iot-edge-v1/blob/master/v2/samples/azureiotedge-simulated-temperature-sensor/Program.cs
 
-using System;
-using System.IO;
-using System.Net;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Runtime.Loader;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Azure.Devices.Client;
-using Microsoft.Azure.Devices.Shared;
-//using Microsoft.Azure.Devices.Client.Transport.Mqtt;
-using Newtonsoft.Json;
-
 
 // disabling async warning as the SendSimulationData is an async method
 // but we don't wait for it
@@ -25,6 +9,22 @@ using Newtonsoft.Json;
 
 namespace AzureIotEdgeSimulatedTemperatureSensor
 {
+    using System;
+    using System.IO;
+    using System.Net;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Runtime.InteropServices;
+    using System.Runtime.Loader;
+    using System.Security.Cryptography.X509Certificates;
+    using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Microsoft.Azure.Devices.Client;
+    using Microsoft.Azure.Devices.Shared;
+    //using Microsoft.Azure.Devices.Client.Transport.Mqtt;
+    using Newtonsoft.Json;
+
     class Program
     {
         private static int counter;
