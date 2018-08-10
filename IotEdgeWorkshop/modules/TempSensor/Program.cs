@@ -33,6 +33,13 @@ namespace AzureIotEdgeSimulatedTemperatureSensor
 
         static async Task Main(string[] args)
         {
+            //DEBUG: print all environment variables
+            Console.WriteLine("Printing environment variables:");
+            foreach(DictionaryEntry e in Environment.GetEnvironmentVariables())
+            {
+                Console.WriteLine(e.Key  + ":" + e.Value);
+            }
+
             // The Edge runtime gives us the connection string we need -- it is injected as an environment variable
             var connectionString = Environment.GetEnvironmentVariable("EdgeHubConnectionString");
 
