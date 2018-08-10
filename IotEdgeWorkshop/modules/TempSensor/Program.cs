@@ -63,7 +63,8 @@ namespace AzureIotEdgeSimulatedTemperatureSensor
         /// </summary>
         static void InstallCert()
         {
-            var certPath = Environment.GetEnvironmentVariable("EdgeModuleCACertificateFile");
+            //var certPath = Environment.GetEnvironmentVariable("EdgeModuleCACertificateFile");
+            certPath = "/app/azure-iot-test-only.root.ca.cert.pem"
             if (string.IsNullOrWhiteSpace(certPath))
             {
                 // We cannot proceed further without a proper cert file
