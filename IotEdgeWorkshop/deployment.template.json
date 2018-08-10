@@ -37,12 +37,12 @@
         },
         "modules": {
           "tempSensor": {
-            "version": "1.0",
+            "version": "#{image_tag}#",
             "type": "docker",
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "mcr.microsoft.com/azureiotedge-simulated-temperature-sensor:1.0",
+              "image": "${MODULES.TempSensor.arm32v7}",
               "createOptions": ""
             }
           },
