@@ -34,15 +34,15 @@ namespace AzureIotEdgeSimulatedTemperatureSensor
 
         private static volatile bool IsReset = false;
 
-        static async Task Main(string[] args)
+        static void Main(string[] args)
         {
-            await Init();
+            Init().Wait();
 
             // Wait until the app unloads or is cancelled
             var cts = new CancellationTokenSource();
             AssemblyLoadContext.Default.Unloading += (ctx) => cts.Cancel();
             Console.CancelKeyPress += (sender, cpe) => cts.Cancel();
-            await WhenCancelled(cts.Token);
+            WhenCancelled(cts.Token).Wait();
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace AzureIotEdgeSimulatedTemperatureSensor
             SendSimulationData(ioTHubModuleClient);
         }
 
-        private static async Task SendSimulationData(DeviceClient deviceClient)
+        private static async Task SendSimulationData(ioTHubModuleClient deviceClient)
         {
             while(true)
             {
