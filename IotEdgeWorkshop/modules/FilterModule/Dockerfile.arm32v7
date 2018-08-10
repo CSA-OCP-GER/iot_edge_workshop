@@ -9,7 +9,7 @@ RUN dotnet publish -c Release -o out
 
 FROM microsoft/dotnet:2.1-runtime-stretch-slim-arm32v7
 WORKDIR /app
-COPY ../qemu-arm-static /usr/bin/qemu-arm-static
+COPY qemu-arm-static /usr/bin/qemu-arm-static
 COPY --from=build-env /app/out ./
 
 RUN useradd -ms /bin/bash moduleuser
