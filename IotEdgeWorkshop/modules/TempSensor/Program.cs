@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+// Original code: https://github.com/Azure/iot-edge-v1/blob/master/v2/samples/azureiotedge-simulated-temperature-sensor/Program.cs
 
 using System;
 using System.IO;
+using System.Net;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -12,10 +14,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Client;
-using Microsoft.Azure.Devices.Client.Transport.Mqtt;
 using Microsoft.Azure.Devices.Shared;
+//using Microsoft.Azure.Devices.Client.Transport.Mqtt;
 using Newtonsoft.Json;
-using System.Net;
+
 
 // disabling async warning as the SendSimulationData is an async method
 // but we don't wait for it
@@ -34,7 +36,7 @@ namespace AzureIotEdgeSimulatedTemperatureSensor
 
         static async Task Main(string[] args)
         {
-            Init.Wait();
+            await Init();
 
             // Wait until the app unloads or is cancelled
             var cts = new CancellationTokenSource();
