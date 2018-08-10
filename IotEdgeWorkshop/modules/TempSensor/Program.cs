@@ -156,7 +156,7 @@ namespace AzureIotEdgeSimulatedTemperatureSensor
             SendSimulationData(ioTHubModuleClient);
         }
 
-        private static async Task SendSimulationData(ioTHubModuleClient deviceClient)
+        private static async Task SendSimulationData(ModuleClient deviceClient)
         {
             while(true)
             {
