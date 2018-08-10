@@ -42,7 +42,7 @@ namespace FilterModule
         static async Task Init()
         {
             // From https://docs.microsoft.com/en-us/azure/iot-edge/how-to-create-transparent-gateway-linux#installation-on-the-downstream-device
-            string certPath = "./azure-iot-test-only.root.ca.cert.pem";
+            string certPath = "/app/azure-iot-test-only.root.ca.cert.pem";
             X509Store store = new X509Store(StoreName.Root, StoreLocation.CurrentUser);
             store.Open(OpenFlags.ReadWrite);
             store.Add(new X509Certificate2(X509Certificate2.CreateFromCertFile(certPath)));
