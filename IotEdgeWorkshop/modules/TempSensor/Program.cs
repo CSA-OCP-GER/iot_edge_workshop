@@ -96,8 +96,8 @@ namespace AzureIotEdgeSimulatedTemperatureSensor
 
             // Code copied over from FilterModule
             AmqpTransportSettings amqpSetting = new AmqpTransportSettings(TransportType.Amqp_Tcp_Only);
-            settings.RemoteCertificateValidationCallback = new RemoteCertificateValidationCallback (ValidateServerCertificate); 
             ITransportSettings[] settings = { amqpSetting };
+            settings.RemoteCertificateValidationCallback = new RemoteCertificateValidationCallback (ValidateServerCertificate); 
             // Open a connection to the Edge runtime
             ModuleClient ioTHubModuleClient = await ModuleClient.CreateFromEnvironmentAsync(settings);
             await ioTHubModuleClient.OpenAsync();
