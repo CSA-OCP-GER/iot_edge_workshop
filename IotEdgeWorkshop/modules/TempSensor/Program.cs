@@ -73,6 +73,8 @@ namespace AzureIotEdgeSimulatedTemperatureSensor
         /// </summary>
         static async Task Init()
         {
+            bool DisableCertCheck = true;
+
             //DEBUG: print all environment variables
             Console.WriteLine("DEBUG: Printing environment variables:");
             foreach(DictionaryEntry e in Environment.GetEnvironmentVariables())
@@ -96,8 +98,10 @@ namespace AzureIotEdgeSimulatedTemperatureSensor
 
             // Code copied over from FilterModule
             AmqpTransportSettings amqpSetting = new AmqpTransportSettings(TransportType.Amqp_Tcp_Only);
+            if (DisableCertCheck) {
+                amqpSetting.RemoteCertificateValidationCallback = new RemoteCertificateValidationCallback (ValidateServerCertificate); 
+            }
             ITransportSettings[] settings = { amqpSetting };
-            settings.RemoteCertificateValidationCallback = new RemoteCertificateValidationCallback (ValidateServerCertificate); 
             // Open a connection to the Edge runtime
             ModuleClient ioTHubModuleClient = await ModuleClient.CreateFromEnvironmentAsync(settings);
             await ioTHubModuleClient.OpenAsync();
