@@ -45,6 +45,17 @@ namespace AzureIotEdgeSimulatedTemperatureSensor
             WhenCancelled(cts.Token).Wait();
         }
 
+        // The following method is invoked by the RemoteCertificateValidationDelegate, it disables cert validation check
+        // From https://docs.microsoft.com/en-us/dotnet/api/system.net.security.remotecertificatevalidationcallback?view=netframework-4.7.2
+        public static bool ValidateServerCertificate(
+            object sender,
+            X509Certificate certificate,
+            X509Chain chain,
+            SslPolicyErrors sslPolicyErrors)
+        {
+            return true;
+        }
+
         /// <summary>
         /// Handles cleanup operations when app is cancelled or unloads
         /// </summary>
@@ -54,33 +65,6 @@ namespace AzureIotEdgeSimulatedTemperatureSensor
             cancellationToken.Register(s => ((TaskCompletionSource<bool>)s).SetResult(true), tcs);
             return tcs.Task;
         }
-
-        /// <summary>
-        /// Add certificate in local cert store for use by client for secure connection to IoT Edge runtime
-        /// </summary>
-        static void InstallCert()
-        {
-            //var certPath = Environment.GetEnvironmentVariable("EdgeModuleCACertificateFile");
-            var certPath = "/app/azure-iot-test-only.root.ca.cert.pem";
-            if (string.IsNullOrWhiteSpace(certPath))
-            {
-                // We cannot proceed further without a proper cert file
-                Console.WriteLine($"Missing path to certificate collection file: {certPath}");
-                throw new InvalidOperationException("Missing path to certificate file.");
-            }
-            else if (!File.Exists(certPath))
-            {
-                // We cannot proceed further without a proper cert file
-                Console.WriteLine($"Missing path to certificate collection file: {certPath}");
-                throw new InvalidOperationException("Missing certificate file.");
-            }
-            var store = new X509Store(StoreName.Root, StoreLocation.CurrentUser);
-            store.Open(OpenFlags.ReadWrite);
-            store.Add(new X509Certificate2(X509Certificate2.CreateFromCertFile(certPath)));
-            Console.WriteLine("Added Cert: " + certPath);
-            store.Close();
-        }
-
 
         /// <summary>
         /// Initializes the DeviceClient and sets up the callback to receive
@@ -97,7 +81,13 @@ namespace AzureIotEdgeSimulatedTemperatureSensor
             Console.WriteLine("---");
 
             // From https://docs.microsoft.com/en-us/azure/iot-edge/how-to-create-transparent-gateway-linux#installation-on-the-downstream-device
+            Console.WriteLine("DEBUG: installing root CA certificate...");
             string certPath = "/app/azure-iot-test-only.root.ca.cert.pem";
+            if (!File.Exists(certPath))
+            {
+                Console.WriteLine($"Missing path to root CA certificate file: {certPath}");
+                throw new InvalidOperationException("Missing certificate file.");
+            }
             X509Store store = new X509Store(StoreName.Root, StoreLocation.CurrentUser);
             store.Open(OpenFlags.ReadWrite);
             store.Add(new X509Certificate2(X509Certificate2.CreateFromCertFile(certPath)));
@@ -105,6 +95,7 @@ namespace AzureIotEdgeSimulatedTemperatureSensor
 
             // Code copied over from FilterModule
             AmqpTransportSettings amqpSetting = new AmqpTransportSettings(TransportType.Amqp_Tcp_Only);
+            settings.RemoteCertificateValidationCallback = new RemoteCertificateValidationCallback (ValidateServerCertificate), 
             ITransportSettings[] settings = { amqpSetting };
             // Open a connection to the Edge runtime
             ModuleClient ioTHubModuleClient = await ModuleClient.CreateFromEnvironmentAsync(settings);
