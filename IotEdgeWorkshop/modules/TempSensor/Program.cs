@@ -91,14 +91,19 @@ namespace AzureIotEdgeSimulatedTemperatureSensor
                 Console.WriteLine($"Missing path to root CA certificate file: {certPath}");
                 throw new InvalidOperationException("Missing certificate file.");
             }
-            X509Store store = new X509Store(StoreName.Root, StoreLocation.CurrentUser);
-            store.Open(OpenFlags.ReadWrite);
-            store.Add(new X509Certificate2(X509Certificate2.CreateFromCertFile(certPath)));
-            store.Close();
+            else
+            {
+                X509Store store = new X509Store(StoreName.Root, StoreLocation.CurrentUser);
+                store.Open(OpenFlags.ReadWrite);
+                store.Add(new X509Certificate2(X509Certificate2.CreateFromCertFile(certPath)));
+                store.Close();
+            }
 
+            // Create iot hub client
             // Code copied over from FilterModule
             AmqpTransportSettings amqpSetting = new AmqpTransportSettings(TransportType.Amqp_Tcp_Only);
             if (DisableCertCheck) {
+                Console.WriteLine("DEBUG: disabling certificate validation. DO NOT USE IN PRODUCTION!");
                 amqpSetting.RemoteCertificateValidationCallback = new RemoteCertificateValidationCallback (ValidateServerCertificate); 
             }
             ITransportSettings[] settings = { amqpSetting };
