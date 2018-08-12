@@ -44,7 +44,9 @@ namespace FilterModule
         /// </summary>
         static async Task Init()
         {
-            bool DisableCertCheck = true;
+            // Do not do this in production
+            // After creating Edge certs, I was not able to fix validation, I keep getting "The remote certificate is invalid according to the validation procedure."
+            bool DisableCertCheck = false;
 
             //DEBUG: print all environment variables
             Console.WriteLine("DEBUG: Printing environment variables:");
